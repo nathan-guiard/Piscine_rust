@@ -1,42 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib.rs                                             :+:      :+:    :+:   */
+/*   main.rs                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/06 14:53:47 by nguiard           #+#    #+#             */
-/*   Updated: 2022/12/06 15:19:15 by nguiard          ###   ########.fr       */
+/*   Created: 2022/12/06 16:51:15 by nguiard           #+#    #+#             */
+/*   Updated: 2022/12/06 17:06:19 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#[derive(Debug, PartialEq)]
-pub enum Sign {
-	Positive,
-	Zero,
-	Negative,
+pub enum Literal {
+	S: String,
+	I: i32,
+	F: f32,
+	B: bool,
 }
 
-impl Sign {
-	pub fn of(i: i32) -> Self {
-		if i > 0 {
-			Sign::Positive
-		}
-		else if i == 0 {
-			Sign::Zero
-		}
-		else {
-			Sign::Negative
-		}
-	}
+impl Literal {
+	pub fn display(&self);
+	pub fn is_string(&self)	-> bool;
+	pub fn is_int(&self)	-> bool;
+	pub fn is_float(&self)	-> bool;
+	pub fn is_bool(&self)	-> bool;
 }
 
-#[cfg(test)]
-mod tests {
-	use	crate::Sign;
-
-    #[test]
-    fn positive() {
-        assert_eq!(Sign.of(42), Sign::Positive);
-    }
+fn main() {
+    println!("Hello, world!");
 }

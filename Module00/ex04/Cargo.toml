@@ -1,0 +1,24 @@
+[package]
+name = "module00-ex04"
+version = "0.1.0"
+edition = "2021"
+authors = ["nguiard"]
+description = "My answer to the fifth exercise of the first module of 42’s Rust Piscine"
+publish = false
+default-run = "module00-ex04"
+
+[[bin]]
+name = "other"
+path = "./src/other.rs"
+
+[[bin]]
+name = "test-overflows"
+path = "./src/overflow.rs"
+
+[profile.no-overflow]
+inherits = "dev"
+overflow-checks = false
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]

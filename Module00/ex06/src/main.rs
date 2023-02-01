@@ -6,7 +6,7 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 22:31:10 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/01 22:44:37 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/01 22:47:40 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ use ftkit::random_number;
 use std::cmp::Ordering::*;
 
 fn main() {
-    let rand = random_number(0..=10000);
+    let rand = random_number(0..=1000);
 
 	println!("Here's a cool mistery box, how much do you think it costs?");
 	loop {

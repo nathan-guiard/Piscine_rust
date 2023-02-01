@@ -6,13 +6,19 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 20:25:28 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/01 22:27:09 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/01 23:10:11 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 fn is_leap_year(year: u32) -> bool {
 	assert_ne!(year, 0);
-	if year % 4 == 0 {
+	if year % 100 == 0 {
+		if year % 400 == 0 {
+			true
+		} else {
+			false
+		}
+	} else if year % 4 == 0{
 		true
 	} else {
 		false
@@ -65,5 +71,53 @@ fn main() {
 			year += 1;
 		}
 		first_day_of_month = (days_last_month + first_day_of_month) % 7;	
+	}
+}
+
+#[cfg(test)]
+mod test {
+	use crate::is_leap_year;
+	use crate::num_day_in_month;
+
+	#[test]
+	fn is_leap() {
+		assert_eq!(is_leap_year(1600), true);
+		assert_eq!(is_leap_year(2004), true);
+	}
+
+	#[test]
+	fn is_common() {
+		assert_eq!(is_leap_year(1500), false);
+		assert_eq!(is_leap_year(2003), false);
+	}
+
+	#[test]
+	fn febuary_changements() {
+		assert_eq!(num_day_in_month(1600, 2), 29);
+		assert_eq!(num_day_in_month(1500, 2), 28);
+	}
+
+	#[test]
+	fn other_month_stable() {
+		for year in 1..100 {
+			for month in 1..13 {
+				if month != 2 {
+					assert_eq!(num_day_in_month(year, month),
+							num_day_in_month(year + 1, month));
+				}
+			}
+		}
+	}
+
+	#[test]
+	#[should_panic]
+	fn num_days_panic() {
+		num_day_in_month(60, 60);
+	}
+
+	#[test]
+	#[should_panic]
+	fn year_zero() {
+		is_leap_year(0);
 	}
 }

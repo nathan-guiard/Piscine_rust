@@ -6,14 +6,14 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 23:30:16 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/02 13:34:04 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/03 10:54:12 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 fn next_wild(pattern : &[u8], index: usize, size: usize) -> (u8, bool, usize) {
 	for i in index..size {
 		if pattern[i] != b'*' {
-			return (pattern[i], false, i);
+			return (pattern[i], false, if i == index { i + 1 } else { i });
 		}
 	}
 	(b'\0', true, 0)
@@ -40,10 +40,9 @@ pub fn strpcmp(query: &[u8], pattern: &[u8]) -> bool {
 		let same = query[i] == pattern[j];
 		let wildcard = pattern[j] == b'*';
 		let next = next_wild(pattern, j, p_len);
-		j = next.2;
 				
 		if wildcard {
-			if !next.1 {
+			if next.1 {
 				return true
 			} else {
 				while query[i] != next.0 {
@@ -52,11 +51,11 @@ pub fn strpcmp(query: &[u8], pattern: &[u8]) -> bool {
 						return false;
 					}
 				}
-				j += 1;
+				j = next.2;
 			}
 		} else if same {
 			i += 1;
-			j += 1;
+			j = next.2;
 		} else {
 			return false;
 		}

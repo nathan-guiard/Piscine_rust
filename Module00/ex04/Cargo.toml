@@ -8,6 +8,10 @@ publish = false
 default-run = "module00-ex04"
 
 [[bin]]
+name = "module00-ex04"
+path = "src/main.rs"
+
+[[bin]]
 name = "other"
 path = "./src/other.rs"
 
@@ -15,10 +19,9 @@ path = "./src/other.rs"
 name = "test-overflows"
 path = "./src/overflow.rs"
 
+[profile.release]
+strip = true
+
 [profile.no-overflow]
 inherits = "dev"
 overflow-checks = false
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]

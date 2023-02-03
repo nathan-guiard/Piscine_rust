@@ -6,9 +6,18 @@
 /*   By: nguiard <nguiard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 23:30:16 by nguiard           #+#    #+#             */
-/*   Updated: 2023/02/02 13:10:01 by nguiard          ###   ########.fr       */
+/*   Updated: 2023/02/02 13:34:04 by nguiard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+fn next_wild(pattern : &[u8], index: usize, size: usize) -> (u8, bool, usize) {
+	for i in index..size {
+		if pattern[i] != b'*' {
+			return (pattern[i], false, i);
+		}
+	}
+	(b'\0', true, 0)
+}
 
 pub fn strpcmp(query: &[u8], pattern: &[u8]) -> bool {
 	let q_len = query.len();
@@ -30,22 +39,17 @@ pub fn strpcmp(query: &[u8], pattern: &[u8]) -> bool {
 	while i < q_len && j < p_len {
 		let same = query[i] == pattern[j];
 		let wildcard = pattern[j] == b'*';
-		let mut next = (b'\0', false);
-
-		
-		if j != p_len - 1 {
-			next = (pattern[j + 1], true);
-		}
+		let next = next_wild(pattern, j, p_len);
+		j = next.2;
 				
 		if wildcard {
 			if !next.1 {
-				println!("true: wildcard end {} {}", i, j);
 				return true
 			} else {
 				while query[i] != next.0 {
 					i += 1;
 					if i == q_len {
-						return true;
+						return false;
 					}
 				}
 				j += 1;
@@ -99,5 +103,10 @@ mod tests {
 		assert!(strpcmp(b"ab000cd", b"ab*cd"));
 		assert!(strpcmp(b"abcd", b"ab*cd"));
 		assert!(strpcmp(b"", b"****"));
+	}
+
+	#[test]
+	fn multiple_wild() {
+		assert!(strpcmp(b"abcde", b"ab***"));
 	}
 }
